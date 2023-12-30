@@ -1,0 +1,29 @@
+h1{
+    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: floralwhite;
+    margin: 20px;
+    padding: 20px;
+}
+
+table {
+    margin: 0 auto;
+    border: 1px solid black; 
+    border-collapse: collapse;
+}
+
+.board td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    transition: 0.5s;
+    padding: 10px;
+    border-style: inset;
+    box-shadow: 2px 2px 5px #040404;
+    background-color: rgb(229, 229, 229)
+}
+
+.board td:hover {
+    cursor: pointer;
+    background-color: rgb(72, 71, 70);
+}
