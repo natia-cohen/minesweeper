@@ -4,25 +4,39 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function renderBoard(mat, selector) {
+function renderBoard(board) {
     var strHTML = '<table><tbody>'
-    for (var i = 0; i < mat.length; i++) {
+
+    for (var i = 0; i < board.length; i++) {
 
         strHTML += '<tr>'
-        for (var j = 0; j < mat[0].length; j++) {
+        for (var j = 0; j <board[i].length; j++) {
 
-            const cell = mat[i][j]
+            const cell = board[i][j]
             const className = `cell cell-${i}-${j}`
 
-            strHTML += `<td class="${className}">${cell}</td>`
+            strHTML += `<td class="${className}" onclick="onCellClicked(this,${i},${j})">`
+                      if(cell.isMine){
+                        strHTML += `<span class="hidden-text">${MINE}</span>`
+                      }
+                      if(!cell.isMine){
+                        if(cell.inesAroundCount === 0) strHTML += `<span class="hidden-text">${EMPTY}</span>`
+                        else {
+                            strHTML += `<span class="hidden-text">${cell.inesAroundCount}</span>`
+                        }
+                        
+                      }
+            strHTML += '</td>\n'
         }
-        strHTML += '</tr>'
+        strHTML += '</tr>\n'
     }
     strHTML += '</tbody></table>'
 
 
-    const elContainer = document.querySelector(selector)
+    const elContainer = document.querySelector('.board')
     elContainer.innerHTML = strHTML
+
+    
 }
 
 // location is an object like this - { i: 2, j: 7 }
@@ -32,3 +46,5 @@ function renderCell(location, value) {
     // const elCell = document.querySelector(`[data-i="${location.i}"][data-j="${location.j}"]`)
     elCell.innerHTML = value
 }
+
+// oncontextmenu="onCellMarked(event, this,${i},${j})"

@@ -27,3 +27,16 @@ table {
     cursor: pointer;
     background-color: rgb(72, 71, 70);
 }
+.empty{
+    background-color: #f0f0f0;
+}
+.hidden-text{
+    display: none;
+}
+.visible-text{
+    display: none;
+}
+.footer{
+  
+    margin-top: 50px;
+}
