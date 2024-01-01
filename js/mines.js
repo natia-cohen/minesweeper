@@ -1,9 +1,9 @@
 'use strict'
-const MINE = '&#x1F4A3'
+const MINE = '💣'
 
 var gLevel={
     SIZE: 4,
-    MINES:2
+    MINES: 2
   }
 
  function  setMinesOnBoard(board){
@@ -46,4 +46,15 @@ function minesNegsCount(rowIdx, colIdx, board){
    
     return  minesNegsCount 
     
+}
+function revealsAllTheMines(){ 
+    for (var i = 0; i <gBoard.length ; i++) {
+        for (var j = 0; j <  gBoard[i].length; j++) {
+            const currCell = gBoard[i][j]
+            if(currCell.isMine){
+             renderCell({ i: i, j: j }, MINE)
+        
+            }
+        }
+      }
 }

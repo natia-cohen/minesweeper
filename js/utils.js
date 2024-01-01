@@ -15,17 +15,11 @@ function renderBoard(board) {
             const cell = board[i][j]
             const className = `cell cell-${i}-${j}`
 
-            strHTML += `<td class="${className}" onclick="onCellClicked(this,${i},${j})">`
-                      if(cell.isMine){
-                        strHTML += `<span class="hidden-text">${MINE}</span>`
-                      }
-                      if(!cell.isMine){
-                        if(cell.inesAroundCount === 0) strHTML += `<span class="hidden-text">${EMPTY}</span>`
-                        else {
-                            strHTML += `<span class="hidden-text">${cell.inesAroundCount}</span>`
-                        }
-                        
-                      }
+            strHTML += `<td class="${className}" 
+            oncontextmenu="onCellMarked(this, event, ${i}, ${j}); return false;"
+            ${cell.inesAroundCount === 0 && !cell.isMine ? `onclick="expandShown(this, event, ${i}, ${j})"` : `onclick="onCellClicked(this, event, ${i}, ${j})"`}>`
+          
+                      
             strHTML += '</td>\n'
         }
         strHTML += '</tr>\n'
@@ -41,10 +35,21 @@ function renderBoard(board) {
 
 // location is an object like this - { i: 2, j: 7 }
 function renderCell(location, value) {
-    // Select the elCell and set the value
+        console.log('value ', value)
     const elCell = document.querySelector(`.cell-${location.i}-${location.j}`)
-    // const elCell = document.querySelector(`[data-i="${location.i}"][data-j="${location.j}"]`)
-    elCell.innerHTML = value
+    if(value === 0){
+        value = ''
+    }
+    elCell.innerText = value
 }
 
-// oncontextmenu="onCellMarked(event, this,${i},${j})"
+// `<td class="${className}" 
+//                         oncontextmenu="onCellMarked(this,event,${i},${j})"`
+
+//                         if(cell.inesAroundCount === 0 && !cell.isMine ){
+//                            strHTML += `onclick="expandShown(this,event,${i},${j})">`
+
+//                         }else if(cell.inesAroundCount > 0  || cell.isMine === true){
+//                             strHTML += `onclick="onCellClicked(this,event,${i},${j})">`
+//                         }
+

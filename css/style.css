@@ -40,3 +40,6 @@ table {
   
     margin-top: 50px;
 }
+.occupied{
+    background-color: rgb(74, 22, 2);
+}
