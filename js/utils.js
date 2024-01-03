@@ -18,8 +18,7 @@ function renderBoard(board) {
             strHTML += `<td class="${className}" 
             oncontextmenu="onCellMarked(this, event, ${i}, ${j}); return false;"
             ${cell.inesAroundCount === 0 && !cell.isMine ? `onclick="expandShown(this, event, ${i}, ${j})"` : `onclick="onCellClicked(this, event, ${i}, ${j})"`}>`
-          
-                      
+                   
             strHTML += '</td>\n'
         }
         strHTML += '</tr>\n'
@@ -35,7 +34,8 @@ function renderBoard(board) {
 
 // location is an object like this - { i: 2, j: 7 }
 function renderCell(location, value) {
-        console.log('value ', value)
+    
+    console.log('value', value)
     const elCell = document.querySelector(`.cell-${location.i}-${location.j}`)
     if(value === 0){
         value = ''
@@ -43,13 +43,22 @@ function renderCell(location, value) {
     elCell.innerText = value
 }
 
-// `<td class="${className}" 
-//                         oncontextmenu="onCellMarked(this,event,${i},${j})"`
+function getEmptyCell(board){
+	var emptyCells = []
 
-//                         if(cell.inesAroundCount === 0 && !cell.isMine ){
-//                            strHTML += `onclick="expandShown(this,event,${i},${j})">`
+	for(var i =0  ; i < board.length ; i++){
+		
+		for(var j =0 ; j < board[i].length ; j++){
+			 var currCell = board[i][j]
+			 if(!currCell.isMine){
+				emptyCells.push({i,j})
+			 }
+		}
 
-//                         }else if(cell.inesAroundCount > 0  || cell.isMine === true){
-//                             strHTML += `onclick="onCellClicked(this,event,${i},${j})">`
-//                         }
+	}
+	if(!emptyCells.length)  return 
 
+	var randomIdx = getRandomIntInclusive(0,emptyCells.length -1 )
+	 return emptyCells[randomIdx] 
+
+}
