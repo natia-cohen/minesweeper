@@ -7,7 +7,7 @@ var gBoard
 
 var gGame = {
   isON: false,
-  // firstClick: false,
+  firstClick: true,
   shownCount: 0,
   markedCount: 0,
   secsPassed: 0,
@@ -17,7 +17,7 @@ var gGame = {
 
 function init() {
 
-
+  gGame.isON = true
   gBoard = buildBoard()
   console.table(gBoard)
   renderBoard(gBoard)
@@ -38,9 +38,9 @@ function buildBoard() {
 
   }
 
-  // setMinesOnBoard(board)
-  board[1][1].isMine = true
-  board[3][3].isMine = true
+  setMinesOnBoard(board)
+  // board[1][1].isMine = true
+  // board[3][3].isMine = true
   setMinesNegsCount(board)
   return board
 
@@ -67,21 +67,49 @@ function onClickLivesLeft(){
   }else if(gGame.lifeLeft === 0){
     elCell.innerText = '0'
   }
-
-  gGame.isLifeON = false
-  if(gGame.lifeLeft < 0 ) return
-console.log('lifeLeft', gGame.lifeLeft)
   
+  if(gGame.lifeLeft < 0 ) return
+
+
 }
+
+function onClickReset(){
+  const elCell = document.querySelector(`.resetBtn span`)
+  
+   
+    gGame.shownCount = 0
+    gGame.markedCount = 0
+    gGame.secsPassed=0 
+    gGame.lifeLeft= 3
+    elCell.innerText = '😄'
+    gLevel.MINES = 2
+    gLevel.SIZE = 4
+    init() 
+  }
+
+
 function checkGameOver() {
-  if( checkIfAllMinesAreMarked() && checkIfAllCellsShown()) return true
+  if( checkIfAllMinesAreMarked() && checkIfAllCellsShown()){
+    return true
+    
+  }
  
   return false
 }
 
-function victory() {
-  console.log('victory')
+function gameOver(){
+  const elCell = document.querySelector(`.resetBtn span`)
+  elCell.innerText = '😩'
+  gGame.isON = false
+  console.log('Game-over')
 }
+
+function victory(){
+  gGame.isON = false
+  console.log('victory')
+
+}
+
 
 function checkIfAllMinesAreMarked() {
   if (gLevel.MINES === gGame.markedCount) {

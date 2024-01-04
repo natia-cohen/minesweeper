@@ -17,7 +17,7 @@ function renderBoard(board) {
 
             strHTML += `<td class="${className}" 
             oncontextmenu="onCellMarked(this, event, ${i}, ${j}); return false;"
-            ${cell.inesAroundCount === 0 && !cell.isMine ? `onclick="expandShown(this, event, ${i}, ${j})"` : `onclick="onCellClicked(this, event, ${i}, ${j})"`}>`
+            ${cell.inesAroundCount === 0 && !cell.isMine  ? `onclick="expandShown(this, event, ${i}, ${j})"` : `onclick="onCellClicked(this, event, ${i}, ${j})"`}>`
                    
             strHTML += '</td>\n'
         }
@@ -34,8 +34,6 @@ function renderBoard(board) {
 
 // location is an object like this - { i: 2, j: 7 }
 function renderCell(location, value) {
-    
-    console.log('value', value)
     const elCell = document.querySelector(`.cell-${location.i}-${location.j}`)
     if(value === 0){
         value = ''

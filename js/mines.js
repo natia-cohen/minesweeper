@@ -1,21 +1,27 @@
 'use strict'
-const MINE = '💣'
+const MINE = '💥'
 
 var gLevel = {
     SIZE: 4,
     MINES: 2
 }
+
+
 function onSetLevel(level){
-    console.log('onSetLevel')
+    const elCell = document.querySelector(`.resetBtn span`)
+    elCell.innerText = '😄'
     gLevel.SIZE = level
-    console.log('gLevel.SIZE', gLevel.SIZE)
+   
   
     if(level === 4) gLevel.MINES = 2
     else if(level === 8) gLevel.MINES = 14
     else gLevel.MINES = 32
     gBoard=buildBoard()
+    console.log('gBoard', gBoard)
     renderBoard(gBoard)
    }
+
+   
 
 function setMinesOnBoard(board) {
     for (var i = 0; i < gLevel.MINES; i++) {
@@ -24,7 +30,6 @@ function setMinesOnBoard(board) {
         console.log('cell:', cell)
     }
 }
-
 
 function setMinesNegsCount(board) {
 
@@ -50,7 +55,10 @@ function minesNegsCount(rowIdx, colIdx, board) {
             if (j < 0 || j >= board[i].length) continue
             if (i === rowIdx && j === colIdx) continue
 
-            if (board[i][j].isMine) minesNegsCount++
+            if (board[i][j].isMine){
+                minesNegsCount++
+               
+            } 
         }
     }
 
@@ -59,23 +67,6 @@ function minesNegsCount(rowIdx, colIdx, board) {
 }
 
 
-function minesNegsCount(rowIdx, colIdx, board) {
-    var minesNegsCount = 0
-
-    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i >= board.length) continue
-
-        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j >= board[i].length) continue
-            if (i === rowIdx && j === colIdx) continue
-
-            if (board[i][j].isMine) minesNegsCount++
-        }
-    }
-
-    return minesNegsCount
-
-}
 function revealsAllTheMines() {
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[i].length; j++) {
