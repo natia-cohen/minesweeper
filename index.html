@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Minesweeper</title>
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -16,17 +17,21 @@
         Your browser does not support the video tag.
     </video>
     <div class="container">
-        <h1>Minesweeper</h1>
         <div class="button">
             <button class="btn" onclick="onSetLevel(4)">Beginner</button>
             <button class="btn" onclick="onSetLevel(8)"> Intermediate</button>
             <button class="btn" onclick="onSetLevel(12)">Expert</button>
+            <button class="btn" onclick="onClickLivesLeft()"><span>3</span> LIVES LEFT</button>
+            <button class="btn-hint" onclick="onClickHint()"><span>HINT</button>
         </div>
-        <button class="btn" onclick="onClickLivesLeft()"><span>3</span> LIVES LEFT</button>
+        <h1>Minesweeper</h1>
+        <div class="timer-container" >
+            <span class="seconds">00</span>
+        </div>
         <button class="resetBtn" onclick="onClickReset(this)"><span>😄</span></button>
 
         <div class="board"></div>
-        <div class="footer">Created by Natia Cohen</div>
+        <div class="footer"> &#169; Created by Natia Cohen</div>
     </div>
 
 
@@ -37,6 +42,7 @@
     <script src="js/game.js"></script>
     <script src="js/mines.js"></script>
     <script src="js/cells.js"></script>
+    <script src="js/hints.js"></script>
 
 
 </body>

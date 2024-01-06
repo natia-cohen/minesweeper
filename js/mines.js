@@ -7,37 +7,24 @@ var gLevel = {
 }
 
 
-function onSetLevel(level){
-    const elCell = document.querySelector(`.resetBtn span`)
-    elCell.innerText = '😄'
-    gLevel.SIZE = level
-   
+function setMinesOnBoard(firstRow,firstCol) {
   
-    if(level === 4) gLevel.MINES = 2
-    else if(level === 8) gLevel.MINES = 14
-    else gLevel.MINES = 32
-    gBoard=buildBoard()
-    console.log('gBoard', gBoard)
-    renderBoard(gBoard)
-   }
 
-   
-
-function setMinesOnBoard(board) {
     for (var i = 0; i < gLevel.MINES; i++) {
-        var cell = getEmptyCell(board)
-        board[cell.i][cell.j].isMine = true
-        console.log('cell:', cell)
+        var cell = getEmptyCell(firstRow,firstCol)
+        gBoard[cell.i][cell.j].isMine = true
+        
     }
+
 }
 
-function setMinesNegsCount(board) {
-
-    for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board[i].length; j++) {
-
-            if (!board[i][j].isMine) {
-                board[i][j].inesAroundCount = minesNegsCount(i, j, board)
+function setMinesNegsCount() {
+    
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[i].length; j++) {
+            const currCell = gBoard[i][j]
+            if (!currCell.isMine) {
+              currCell.inesAroundCount = minesNegsCount(i, j)
 
             }
         }
@@ -45,23 +32,22 @@ function setMinesNegsCount(board) {
 
 }
 
-function minesNegsCount(rowIdx, colIdx, board) {
+function minesNegsCount(rowIdx, colIdx) {
     var minesNegsCount = 0
 
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i >= board.length) continue
+        if (i < 0 || i >= gBoard.length) continue
 
         for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j >= board[i].length) continue
+            if (j < 0 || j >= gBoard[i].length) continue
             if (i === rowIdx && j === colIdx) continue
 
-            if (board[i][j].isMine){
+            if (gBoard[i][j].isMine){
                 minesNegsCount++
                
             } 
         }
     }
-
     return minesNegsCount
 
 }
@@ -78,3 +64,4 @@ function revealsAllTheMines() {
         }
     }
 }
+

@@ -2,29 +2,49 @@
 
 const EMPTY = ''
 const FLAG = '🏴'
+const X_FLAG = '❌'
 
 var gBoard
 
 var gGame = {
   isON: false,
+  isLivesON: false,
+  isHintON: false,
   firstClick: true,
   shownCount: 0,
   markedCount: 0,
   secsPassed: 0,
-  lifeLeft: 3,
-  isLifeON: false,
+  hintsCount: 3,
+  livesLeft: 3,
+
+
 }
 
 function init() {
 
   gGame.isON = true
-  gBoard = buildBoard()
-  console.table(gBoard)
-  renderBoard(gBoard)
-  
 
+  gBoard = buildBoard()
+  renderBoard(gBoard)
 
 }
+
+function onSetLevel(level) {
+  const elCell = document.querySelector(`.resetBtn span`)
+  elCell.innerText = '😄'
+  gLevel.SIZE = level
+
+
+  if (level === 4) gLevel.MINES = 2
+  else if (level === 8) gLevel.MINES = 14
+  else gLevel.MINES = 32
+
+  dataReset()
+  init()
+}
+
+
+
 
 function buildBoard() {
   const board = []
@@ -33,15 +53,9 @@ function buildBoard() {
     board.push([])
     for (var j = 0; j < gLevel.SIZE; j++) {
       board[i][j] = createCellObject()
-
     }
-
   }
 
-  setMinesOnBoard(board)
-  // board[1][1].isMine = true
-  // board[3][3].isMine = true
-  setMinesNegsCount(board)
   return board
 
 }
@@ -54,58 +68,82 @@ function createCellObject() {
     isMarked: false
   }
 }
- 
-function onClickLivesLeft(){
-  gGame.isLifeON = true
-  gGame.lifeLeft--
+
+function onClickLivesLeft() {
+  gGame.isLivesON = true
+  gGame.livesLeft--
   const elCell = document.querySelector(`.btn span`)
-   
-  if(gGame.lifeLeft === 2){
+  const audio = new Audio('sound/boost.mp3')
+  audio.play()
+
+  if (gGame.livesLeft === 2) {
     elCell.innerText = '2'
-  }else if(gGame.lifeLeft === 1){
+  } else if (gGame.livesLeft === 1) {
     elCell.innerText = '1'
-  }else if(gGame.lifeLeft === 0){
+  } else if (gGame.livesLeft === 0) {
     elCell.innerText = '0'
   }
-  
-  if(gGame.lifeLeft < 0 ) return
+
+  if (gGame.livesLeft < 0) return
 
 
 }
 
-function onClickReset(){
-  const elCell = document.querySelector(`.resetBtn span`)
-  
-   
-    gGame.shownCount = 0
-    gGame.markedCount = 0
-    gGame.secsPassed=0 
-    gGame.lifeLeft= 3
-    elCell.innerText = '😄'
-    gLevel.MINES = 2
-    gLevel.SIZE = 4
-    init() 
-  }
+function dataReset() {
+  clearInterval(gIntervalTimer)
+  const elBtn = document.querySelector(`.btn span`)
+  const elTimer = document.querySelector(`.seconds`)
+
+  elTimer.innerText = '000'
+  elBtn.innerText = '3'
+  gGame.isON = false
+  gGame.firstClick = true
+  gGame.shownCount = 0
+  gGame.markedCount = 0
+  gGame.secsPassed = 0
+  gGame.livesLeft = 3
+  gGame.isLivesON = false
+}
+
+function onClickReset() {
+  const elBtn = document.querySelector(`.resetBtn span`)
+
+  elBtn.innerText = '😄'
+
+  dataReset()
+  init()
+}
 
 
 function checkGameOver() {
-  if( checkIfAllMinesAreMarked() && checkIfAllCellsShown()){
+  if (checkIfAllMinesAreMarked() && checkIfAllCellsShown()) {
     return true
-    
   }
- 
+
   return false
 }
 
-function gameOver(){
-  const elCell = document.querySelector(`.resetBtn span`)
-  elCell.innerText = '😩'
+function gameOver() {
+  const elBtn = document.querySelector(`.resetBtn span`)
+  const audio = new Audio('sound/gameOver.mp3')
+
+  audio.play()
+  redundantFlags()
+  clearInterval(gIntervalTimer)
+  elBtn.innerText = '😩'
+
+  
   gGame.isON = false
   console.log('Game-over')
 }
 
-function victory(){
+function victory() {
   gGame.isON = false
+  clearInterval(gIntervalTimer)
+
+  const audio = new Audio('sound/win.mp3')
+  audio.play()
+
   console.log('victory')
 
 }
@@ -113,12 +151,15 @@ function victory(){
 
 function checkIfAllMinesAreMarked() {
   if (gLevel.MINES === gGame.markedCount) {
-      return true
+    return true
   }
 }
 
 function checkIfAllCellsShown() {
+  cellCountShown()
+
   if (gLevel.SIZE ** 2 - gLevel.MINES === gGame.shownCount) {
-      return true
+    return true
   }
-}
+
+} 
