@@ -17,7 +17,6 @@ var gGame = {
   hintsCount: 3,
   livesLeft: 3,
 
-
 }
 
 function init() {
