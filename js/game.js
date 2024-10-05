@@ -16,7 +16,8 @@ var gGame = {
   secsPassed: 0,
   hintsCount: 3,
   livesLeft: 3,
-};
+
+}
 
 function init() {
   gGame.isON = true;
