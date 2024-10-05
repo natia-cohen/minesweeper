@@ -84,4 +84,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Natia Cohen - [natiapa](https://github.com/natiapa)
 
-Project Link: [https://github.com/natiapa/minesweeper](https://github.com/natiapa/minesweeper)
+Project Link: [https://natiapa.github.io/minesweeper/](https://natiapa.github.io/minesweeper/)
